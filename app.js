@@ -3,29 +3,26 @@ const app = express();
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv/config");
+
+app.use(cors());
+app.options("*", cors());
 
 //middleware
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
-require("dotenv/config");
+//Routes middleware
+const product = require("./routes/product");
+const category = require("./routes/category");
 
 const api = process.env.API_URL;
-app.get(api, (req, res) => {
-  const product = {
-    id: 1,
-    name: "MOMO",
-    some: "some",
-  };
-  res.send(product);
-});
 
-app.post(api, (req, res) => {
-  const newData = req.body;
-  res.send(newData);
-  console.log(newData);
-});
+app.use(`${api}/product`, product);
+app.use(`${api}/category`, category);
 
+//database
 mongoose
   .connect(process.env.CONNECT_URL, {
     useNewUrlParser: true,
@@ -38,7 +35,8 @@ mongoose
     console.log("err");
   });
 
-app.listen(3000, () => {
-  console.log(api);
-  console.log("app runnig in post 3000");
+//server
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`server is running http://localhost:${PORT}`);
 });
