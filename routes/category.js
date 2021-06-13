@@ -6,6 +6,7 @@ const {
   categoryList,
   categoryDelete,
   categoryListById,
+  categoryUpdate,
 } = require("../controller/category");
 
 //router
@@ -16,5 +17,7 @@ router.get("/", categoryList);
 router.get("/:id", categoryListById);
 
 router.delete("/:id", categoryDelete);
+
+router.put("/:id", categoryUpdate);
 
 module.exports = router;

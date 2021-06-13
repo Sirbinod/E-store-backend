@@ -65,3 +65,27 @@ exports.categoryDelete = async (req, res) => {
     res.status(400).json({success: false, error: error});
   }
 };
+
+exports.categoryUpdate = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const categoryUp = await Category.findByIdAndUpdate(
+      _id,
+      {name: req.body.name, color: req.body.color, icon: req.body.icon},
+      {
+        new: true,
+      }
+    );
+    if (!categoryUp) {
+      res.status(400).json({success: false, message: "Category didn't update"});
+    } else {
+      res.status(204).json({
+        success: true,
+        message: "Category update successfull",
+        data: categoryUp,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({success: false, error: error});
+  }
+};

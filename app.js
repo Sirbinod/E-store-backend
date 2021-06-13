@@ -20,6 +20,7 @@ const category = require("./routes/category");
 const api = process.env.API_URL;
 
 app.use(`${api}/product`, product);
+
 app.use(`${api}/category`, category);
 
 //database
@@ -27,12 +28,13 @@ mongoose
   .connect(process.env.CONNECT_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("db connected");
   })
   .catch((err) => {
-    console.log("err");
+    console.log(err);
   });
 
 //server
