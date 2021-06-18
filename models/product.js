@@ -5,9 +5,8 @@ const productSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  sortName: {
+  shortName: {
     type: String,
-    default: "",
   },
   description: {
     type: String,
@@ -32,7 +31,7 @@ const productSchema = mongoose.Schema({
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "category",
+    ref: "Category",
     require: true,
   },
   stock: {
@@ -57,6 +56,14 @@ const productSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+productSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+productSchema.set("toJSON", {
+  virtuals: true,
 });
 
 module.exports = mongoose.model("Product", productSchema);

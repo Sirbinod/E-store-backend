@@ -6,6 +6,8 @@ const {
   productDelete,
   productCount,
   productFeature,
+  productUpdate,
+  productFilter,
 } = require("../controller/product");
 const router = express.Router();
 
@@ -17,8 +19,10 @@ router.get("/:id", productListById);
 
 router.delete("/:id", productDelete);
 
-router.get("/count_product", productCount);
+router.put("/:id", productUpdate);
 
-router.get("/feature_product", productFeature);
+router.get(`/get/count`, productCount);
+
+router.get("/get/feature", productFeature);
 
 module.exports = router;
