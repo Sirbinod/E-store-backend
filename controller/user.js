@@ -97,6 +97,7 @@ exports.userUpdate = async (req, res) => {
       newPassword = bcrypt.hashSync(req.body.password, 10);
     } else {
       newPassword = userExit.password;
+      console.log(userExit);
     }
     const user = await User.findByIdAndUpdate(
       _id,

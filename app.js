@@ -21,6 +21,7 @@ app.use(errorHandler);
 const product = require("./routes/product");
 const category = require("./routes/category");
 const user = require("./routes/user");
+const order = require("./routes/order");
 
 const api = process.env.API_URL;
 
@@ -30,6 +31,7 @@ app.use(`${api}/category`, category);
 
 app.use(`${api}/user`, user);
 
+app.use(`${api}/order`, order);
 //database
 mongoose
   .connect(process.env.CONNECT_URL, {

@@ -18,7 +18,7 @@ router.get("/:id", userListById);
 
 router.delete("/:id", userDelete);
 
-router.put("/", userUpdate);
+router.put("/:id", userUpdate);
 
 router.get("/get/count", userCount);
 
