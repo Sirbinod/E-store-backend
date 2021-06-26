@@ -5,6 +5,8 @@ const {
   orderListById,
   orderDelete,
   orderUpdate,
+  totalSales,
+  orderCount,
 } = require("../controller/order");
 const router = express.Router();
 
@@ -17,5 +19,9 @@ router.get("/:id", orderListById);
 router.delete("/:id", orderDelete);
 
 router.put("/:id", orderUpdate);
+
+router.get("/get/totalSale", totalSales);
+
+router.get("/get/count", orderCount);
 
 module.exports = router;

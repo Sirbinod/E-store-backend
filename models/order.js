@@ -15,6 +15,11 @@ const orderSchema = mongoose.Schema({
   shippingAddress2: {
     type: String,
   },
+  status: {
+    type: String,
+    required: true,
+    default: "Pending",
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -34,3 +39,21 @@ orderSchema.set("toJSON", {
 });
 
 module.exports = mongoose.model("Order", orderSchema);
+
+// {
+//   "orderItems" : [
+//       {
+//           "quantity": 3,
+//           "product" : "5fcfc406ae79b0a6a90d2585"
+//       },
+//       {
+//           "quantity": 2,
+//           "product" : "5fd293c7d3abe7295b1403c4"
+//       }
+//   ],
+//   "shippingAddress1" : "Flowers Street , 45",
+//   "shippingAddress2" : "1-B",
+//   "status":"Allowed",
+//   "user": "5fd51bc7e39ba856244a3b44"
+
+// }
