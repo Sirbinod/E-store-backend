@@ -125,3 +125,17 @@ exports.totalSales = async (req, res) => {
     res.status(500).json({success: false, error});
   }
 };
+
+exports.orderUser = async (req, res) => {
+  try {
+    const userOrderList = await Order.find({user: req.params.userId})
+      .populate({
+        path: "orderItems",
+        populate: {path: "product", populate: "category"},
+      })
+      .sort({dateOrdered: -1});
+    res.status(200).json({success: true, userOrderList});
+  } catch (error) {
+    res.status(500).json({success: false, error});
+  }
+};

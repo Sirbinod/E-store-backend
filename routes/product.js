@@ -9,11 +9,12 @@ const {
   productUpdate,
   productFilter,
 } = require("../controller/product");
+const {uploadOptions} = require("../controller/product");
 const router = express.Router();
 
 router.get("/", productList);
 
-router.post("/", create);
+router.post("/", uploadOptions.single("image"), create);
 
 router.get("/:id", productListById);
 

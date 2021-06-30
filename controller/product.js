@@ -1,11 +1,41 @@
 const Product = require("../models/product");
 const Category = require("../models/category");
 // const mongoose = require("mongoose");
+const multer = require("multer");
+
+const FILE_TYPE_MAP = {
+  "image/png": "png",
+  "image/jpeg": "jpeg",
+  "image/jpg": "jpg",
+};
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const isValid = FILE_TYPE_MAP[file.mimetype];
+    let uploadError = new Error("invalid image type");
+    if (isValid) {
+      uploadError = null;
+    }
+    cb(uploadError, "public/upload");
+  },
+  filename: function (req, file, cb) {
+    const fileName = file.originalname.split(" ").join("-");
+    const extension = FILE_TYPE_MAP[file.mimetype];
+    cb(null, `${fileName}-${Date.now()}.${extension}`);
+  },
+});
+
+exports.uploadOptions = multer({storage: storage});
 
 exports.create = async (req, res) => {
   const category = await Category.findById(req.body.category);
   console.log(category);
   if (!category) return res.status(404).send("invalid category");
+
+  const file = req.file;
+  if (!file) return res.status(400).send("No image in the request");
+  const fileName = file.filename;
+  const basePath = `${req.protocol}://${req.get("host")}/public/-upload/`;
   try {
     const productExit = await Product.findOne({name: req.body.name});
     if (productExit) {
@@ -17,7 +47,7 @@ exports.create = async (req, res) => {
         name: req.body.name,
         shortName: req.body.shortName,
         description: req.body.description,
-        image: req.body.image,
+        image: `${basePath}${fileName}`,
         gallery: req.body.gallery,
         brand: req.body.brand,
         price: req.body.price,
